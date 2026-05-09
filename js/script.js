@@ -1,5 +1,9 @@
 const DEG_TO_RAD = Math.PI / 180;
 
+// =========================
+// SCENE
+// =========================
+
 const scene = new THREE.Scene();
 
 // =========================
@@ -24,9 +28,13 @@ const renderer = new THREE.WebGLRenderer({
     alpha: true
 });
 
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
 
-renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.outputColorSpace =
+    THREE.SRGBColorSpace;
 
 document
     .getElementById('globeViz')
@@ -49,27 +57,41 @@ camera.position.z = cameraposition;
 // CONTROLS
 // =========================
 
-const tbControls = new THREE.TrackballControls(
-    camera,
-    renderer.domElement
-);
+const tbControls =
+    new THREE.TrackballControls(
+        camera,
+        renderer.domElement
+    );
 
-tbControls.minDistance = 101;
 tbControls.rotateSpeed = 1.0;
 tbControls.zoomSpeed = 1.2;
+
+// Earth-Mode näher begrenzen
+if (p2r === "earth") {
+    tbControls.minDistance = 180;
+} else {
+    tbControls.minDistance = 101;
+}
 
 // =========================
 // LICHTER
 // =========================
 
-scene.add(new THREE.AmbientLight(0xbbbbbb));
-
-const sunLight = new THREE.DirectionalLight(
-    0xffffff,
-    1.2
+scene.add(
+    new THREE.AmbientLight(0xbbbbbb)
 );
 
-sunLight.position.set(500, 200, 300);
+const sunLight =
+    new THREE.DirectionalLight(
+        0xffffff,
+        1.2
+    );
+
+sunLight.position.set(
+    500,
+    200,
+    300
+);
 
 scene.add(sunLight);
 
@@ -79,20 +101,26 @@ scene.add(sunLight);
 
 function createPlanet(name, scale) {
 
-    if (!name || scale <= 0 && name !== P1) {
-        return null;
-    }
+    if (!name) return null;
 
     const planet = new ThreeGlobe()
         .globeImageUrl(
-            'assets/img/' + name + '-' + bild + '.jpg'
+            'assets/img/' +
+            name +
+            '-' +
+            bild +
+            '.jpg'
         )
         .bumpImageUrl(
-            'assets/img/bump-' + name + '.jpg'
+            'assets/img/bump-' +
+            name +
+            '.jpg'
         );
 
     if (scale > 0) {
-        planet.scale.setScalar(scale * scalingfactor);
+        planet.scale.setScalar(
+            scale * scalingfactor
+        );
     }
 
     return planet;
@@ -103,6 +131,7 @@ function createPlanet(name, scale) {
 // =========================
 
 const Pl1 = createPlanet(P1, 1);
+
 const Pl2 = createPlanet(P2, P2DM);
 const Pl3 = createPlanet(P3, P3DM);
 const Pl4 = createPlanet(P4, P4DM);
@@ -113,26 +142,41 @@ const Pl8 = createPlanet(P8, P8DM);
 const Pl9 = createPlanet(P9, P9DM);
 
 // =========================
-// ZENTRALOBJEKT
+// ZENTRALES SYSTEM
 // =========================
 
-scene.add(Pl1);
+const centerSystem =
+    new THREE.Object3D();
+
+scene.add(centerSystem);
+
+centerSystem.add(Pl1);
 
 // =========================
 // ORBIT CREATOR
 // =========================
 
-function createOrbit(planet, distance, tilt = 0) {
+function createOrbit(
+    planet,
+    distance,
+    tilt = 0
+) {
 
     if (!planet) return null;
 
-    const orbit = new THREE.Object3D();
+    const orbit =
+        new THREE.Object3D();
 
-    orbit.rotation.z = THREE.MathUtils.degToRad(tilt);
+    orbit.rotation.z =
+        THREE.MathUtils.degToRad(tilt);
 
-    scene.add(orbit);
+    centerSystem.add(orbit);
 
-    planet.position.set(distance, 0, 0);
+    planet.position.set(
+        distance,
+        0,
+        0
+    );
 
     orbit.add(planet);
 
@@ -146,39 +190,59 @@ function createOrbit(planet, distance, tilt = 0) {
 const orbit2 = createOrbit(
     Pl2,
     P2Abst,
-    p2r === "earth" ? 5.145 : 0
+    p2r === "earth"
+        ? 5.145
+        : 0
 );
 
-const orbit3 = createOrbit(Pl3, P3Abst);
-const orbit4 = createOrbit(Pl4, P4Abst);
-const orbit5 = createOrbit(Pl5, P5Abst);
-const orbit6 = createOrbit(Pl6, P6Abst);
-const orbit7 = createOrbit(Pl7, P7Abst);
-const orbit8 = createOrbit(Pl8, P8Abst);
-const orbit9 = createOrbit(Pl9, P9Abst);
+const orbit3 =
+    createOrbit(Pl3, P3Abst);
+
+const orbit4 =
+    createOrbit(Pl4, P4Abst);
+
+const orbit5 =
+    createOrbit(Pl5, P5Abst);
+
+const orbit6 =
+    createOrbit(Pl6, P6Abst);
+
+const orbit7 =
+    createOrbit(Pl7, P7Abst);
+
+const orbit8 =
+    createOrbit(Pl8, P8Abst);
+
+const orbit9 =
+    createOrbit(Pl9, P9Abst);
 
 // =========================
 // CLOCK
 // =========================
 
-const clock = new THREE.Clock();
+const clock =
+    new THREE.Clock();
 
 // =========================
 // RESIZE
 // =========================
 
-window.addEventListener('resize', () => {
+window.addEventListener(
+    'resize',
+    () => {
 
-    camera.aspect =
-        window.innerWidth / window.innerHeight;
+        camera.aspect =
+            window.innerWidth /
+            window.innerHeight;
 
-    camera.updateProjectionMatrix();
+        camera.updateProjectionMatrix();
 
-    renderer.setSize(
-        window.innerWidth,
-        window.innerHeight
-    );
-});
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+    }
+);
 
 // =========================
 // ANIMATION
@@ -188,37 +252,104 @@ window.addEventListener('resize', () => {
 
     requestAnimationFrame(animate);
 
-    const delta = clock.getDelta();
+    const delta =
+        clock.getDelta();
 
     tbControls.update();
 
-    // Eigenrotation
-    if (Pl1) Pl1.rotation.y += delta * 0.25;
+    // =====================
+    // EIGENROTATION
+    // =====================
 
-    if (Pl2) Pl2.rotation.y += delta * 0.4;
-    if (Pl3) Pl3.rotation.y += delta * 0.35;
-    if (Pl4) Pl4.rotation.y += delta * 0.35;
-    if (Pl5) Pl5.rotation.y += delta * 0.3;
-    if (Pl6) Pl6.rotation.y += delta * 0.6;
-    if (Pl7) Pl7.rotation.y += delta * 0.5;
-    if (Pl8) Pl8.rotation.y += delta * 0.45;
-    if (Pl9) Pl9.rotation.y += delta * 0.4;
+    if (Pl1)
+        Pl1.rotation.y +=
+            delta * 0.25;
 
-    // Orbits
-    if (orbit2) orbit2.rotation.y += delta * P2Speed;
-    if (orbit3) orbit3.rotation.y += delta * P3Speed;
-    if (orbit4) orbit4.rotation.y += delta * P4Speed;
-    if (orbit5) orbit5.rotation.y += delta * P5Speed;
-    if (orbit6) orbit6.rotation.y += delta * P6Speed;
-    if (orbit7) orbit7.rotation.y += delta * P7Speed;
-    if (orbit8) orbit8.rotation.y += delta * P8Speed;
-    if (orbit9) orbit9.rotation.y += delta * P9Speed;
+    if (Pl2)
+        Pl2.rotation.y +=
+            delta * 0.4;
 
-    // Tidal lock Mond
-    if (p2r === "earth" && Pl2 && orbit2) {
-        Pl2.rotation.y = -orbit2.rotation.y;
+    if (Pl3)
+        Pl3.rotation.y +=
+            delta * 0.35;
+
+    if (Pl4)
+        Pl4.rotation.y +=
+            delta * 0.35;
+
+    if (Pl5)
+        Pl5.rotation.y +=
+            delta * 0.3;
+
+    if (Pl6)
+        Pl6.rotation.y +=
+            delta * 0.6;
+
+    if (Pl7)
+        Pl7.rotation.y +=
+            delta * 0.5;
+
+    if (Pl8)
+        Pl8.rotation.y +=
+            delta * 0.45;
+
+    if (Pl9)
+        Pl9.rotation.y +=
+            delta * 0.4;
+
+    // =====================
+    // ORBITS
+    // =====================
+
+    if (orbit2)
+        orbit2.rotation.y +=
+            delta * P2Speed;
+
+    if (orbit3)
+        orbit3.rotation.y +=
+            delta * P3Speed;
+
+    if (orbit4)
+        orbit4.rotation.y +=
+            delta * P4Speed;
+
+    if (orbit5)
+        orbit5.rotation.y +=
+            delta * P5Speed;
+
+    if (orbit6)
+        orbit6.rotation.y +=
+            delta * P6Speed;
+
+    if (orbit7)
+        orbit7.rotation.y +=
+            delta * P7Speed;
+
+    if (orbit8)
+        orbit8.rotation.y +=
+            delta * P8Speed;
+
+    if (orbit9)
+        orbit9.rotation.y +=
+            delta * P9Speed;
+
+    // =====================
+    // TIDAL LOCK MOND
+    // =====================
+
+    if (
+        p2r === "earth" &&
+        Pl2 &&
+        orbit2
+    ) {
+
+        Pl2.rotation.y =
+            -orbit2.rotation.y;
     }
 
-    renderer.render(scene, camera);
+    renderer.render(
+        scene,
+        camera
+    );
 
 })();
