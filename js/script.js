@@ -261,9 +261,13 @@ window.addEventListener(
     // EIGENROTATION
     // =====================
 
-    if (Pl1)
-        Pl1.rotation.y +=
-            delta * 0.25;
+    if (Pl1) {
+     if (p2r === "earth") {
+         Pl1.rotation.y += delta * 0.018;
+     } else {
+         Pl1.rotation.y += delta * 0.008;
+     }
+    }
 
     if (Pl2)
         Pl2.rotation.y +=
