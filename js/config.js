@@ -1,5 +1,9 @@
 //if (typeof p2r !== 'undefined') {p2r = "earth";}
-// default werte setzen
+
+// =========================
+// DEFAULTWERTE
+// =========================
+
 var P2DM = 0.2;
 var P3DM = 0;
 var P4DM = 0;
@@ -8,6 +12,7 @@ var P6DM = 0;
 var P7DM = 0;
 var P8DM = 0;
 var P9DM = 0;
+
 var P2Abst = 195;
 var P3Abst = 240;
 var P4Abst = 240;
@@ -16,97 +21,114 @@ var P6Abst = 240;
 var P7Abst = 240;
 var P8Abst = 240;
 var P9Abst = 240;
+
 var scalingfactor = 1;
 var artisatani = "inactive";
-cameraposition = 700;
+var cameraposition = 700;
 
-// SONNE, PLANETEN UND MONDE KONFIGURATION 
+// Orbitgeschwindigkeiten
+var P2Speed = 0.6;
+var P3Speed = 0.4;
+var P4Speed = 0.3;
+var P5Speed = 0.24;
+var P6Speed = 0.13;
+var P7Speed = 0.09;
+var P8Speed = 0.06;
+var P9Speed = 0.05;
+
+// =========================
+// MODI
+// =========================
+
 if (p2r === "earth") {
-var trabant1 = 'moon';
-var P1 = 'earth';
-var P2 = trabant1;
-//var P2DM = 22;
-//var P2Abst = 100;
-cameraposition = 700;
-var artisatani = "active";
+
+    var P1 = 'earth';
+    var P2 = 'moon';
+
+    P2DM = 0.27;
+    P2Abst = 120;
+    P2Speed = 0.45;
+
+    cameraposition = 700;
+    artisatani = "active";
 
 } else if (p2r === "sun") {
-var P1 = 'sun';
-var P2 = 'earth';
-//var P2DM = 22;
-//var P2Abst = 100;
-var artisatani = "inactive";
-cameraposition = 700;
+
+    var P1 = 'sun';
+    var P2 = 'earth';
+
+    P2DM = 0.18;
+    P2Abst = 260;
+    P2Speed = 0.15;
+
+    artisatani = "inactive";
+    cameraposition = 700;
 
 } else if (p2r === "solarsystem") {
-var trabant1 = 'moon';
-var trabant2 = '';
-var trabant3 = '';
-var P1 = 'sun';
-var P2 = 'mercury';
-var P2DM = 0.007;
-var P2Abst = 100;
-// venus_surface or venus_atmosphere: 
-var P3 = 'venus_atmosphere'; 
-var P3DM = 0.0174;
-var P3Abst = 200;
-var P4 = 'earth';
-var P4DM = 0.0183;
-var P4Abst = 300;
-var P5 = 'mars';
-var P5DM = 0.0098;
-var P5Abst = 400;
-var P6 = 'jupiter';
-var P6DM = 0.2053;
-var P6Abst = 500;
-var P7 = 'saturn';
-var P7DM = 0.1731;
-var P7Abst = 600;
-var P8 = 'uranus';
-var P8DM = 0.0734;
-var P8Abst = 700;
-var P9 = 'neptune';
-var P9DM = 0.0711;
-var P9Abst = 800;
-var scalingfactor = 1.20;
-var artisatani = "inactive";
-cameraposition = 2000;
 
+    var P1 = 'sun';
 
-} else if (p2r === "test") {
-var trabant1 = 'moon';
-var P1 = 'earth';
-var P2 = trabant1;
-//var P2DM = 22;
-//var P2Abst = 100;
-var artisatani = "inactive";
-cameraposition = 700;
+    var P2 = 'mercury';
+    P2DM = 0.007;
+    P2Abst = 100;
+    P2Speed = 1.2;
 
+    var P3 = 'venus_atmosphere';
+    P3DM = 0.0174;
+    P3Abst = 170;
+    P3Speed = 0.9;
+
+    var P4 = 'earth';
+    P4DM = 0.0183;
+    P4Abst = 260;
+    P4Speed = 0.75;
+
+    var P5 = 'mars';
+    P5DM = 0.0098;
+    P5Abst = 340;
+    P5Speed = 0.55;
+
+    var P6 = 'jupiter';
+    P6DM = 0.2053;
+    P6Abst = 500;
+    P6Speed = 0.25;
+
+    var P7 = 'saturn';
+    P7DM = 0.1731;
+    P7Abst = 700;
+    P7Speed = 0.18;
+
+    var P8 = 'uranus';
+    P8DM = 0.0734;
+    P8Abst = 900;
+    P8Speed = 0.12;
+
+    var P9 = 'neptune';
+    P9DM = 0.0711;
+    P9Abst = 1100;
+    P9Speed = 0.08;
+
+    scalingfactor = 1.20;
+    artisatani = "inactive";
+    cameraposition = 2400;
 
 } else {
-var trabant1 = 'moon';
-var P1 = 'sun';
-var P2 = 'earth';
-//var P2DM = 22;
-//var P2Abst = 100;
-var artisatani = "active";
-cameraposition = 700;
+
+    var P1 = 'sun';
+    var P2 = 'earth';
+
+    artisatani = "active";
+    cameraposition = 700;
 }
 
-// originale planetenfolge
-// trabant1 = 'moon'
-// sun mercury 'venus_surface or venus_atmosphere' 
-// earth mars jupiter saturn uranus neptune
-
-// UMSCHALTEN TAG UND NACHT
+// =========================
+// TAG / NACHT
+// =========================
 
 var jetzt = new Date().getHours();
 
 if (jetzt >= 5 && jetzt <= 20) {
-bild = 'day';
+    bild = 'day';
 } else {
-bild = 'night';
+    bild = 'night';
 }
-// ueberschreiben zum testen bei bedarf:
-//bild = 'day';
-//bild = 'night';
