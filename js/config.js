@@ -26,7 +26,10 @@ var scalingfactor = 1;
 var artisatani = "inactive";
 var cameraposition = 700;
 
-// Orbitgeschwindigkeiten
+// =========================
+// ORBITGESCHWINDIGKEITEN
+// =========================
+
 var P2Speed = 0.6;
 var P3Speed = 0.4;
 var P4Speed = 0.3;
@@ -45,9 +48,15 @@ if (p2r === "earth") {
     var P1 = 'earth';
     var P2 = 'moon';
 
+    // Mond
     P2DM = 0.27;
+
+    // Abstand erhöht damit der Mond
+    // nicht mehr in die Erde schneidet
     P2Abst = 220;
-    P2Speed = 0.45;
+
+    // Langsamer realistischer Orbit
+    P2Speed = 0.18;
 
     cameraposition = 700;
     artisatani = "active";
@@ -109,7 +118,9 @@ if (p2r === "earth") {
     P9Speed = 0.08;
 
     scalingfactor = 1.20;
+
     artisatani = "inactive";
+
     cameraposition = 2400;
 
 } else {
@@ -118,6 +129,7 @@ if (p2r === "earth") {
     var P2 = 'earth';
 
     artisatani = "active";
+
     cameraposition = 700;
 }
 
