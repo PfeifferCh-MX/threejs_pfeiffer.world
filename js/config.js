@@ -46,7 +46,7 @@ if (p2r === "earth") {
     var P2 = 'moon';
 
     P2DM = 0.27;
-    P2Abst = 120;
+    P2Abst = 220;
     P2Speed = 0.45;
 
     cameraposition = 700;
